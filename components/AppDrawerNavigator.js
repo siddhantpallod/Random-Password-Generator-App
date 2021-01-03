@@ -11,7 +11,6 @@ export const AppDrawerNavigator = createDrawerNavigator({
     SavedPasswords : {
         screen : SavedPasswordsScreen
     },
-    
 },
 
 {
