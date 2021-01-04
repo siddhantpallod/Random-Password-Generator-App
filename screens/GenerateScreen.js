@@ -24,10 +24,6 @@ export default class GenerateScreen extends React.Component {
     this.setState({generatedPassword : password})
   }
 
-  createUniqueId = () => {
-    
-  }
-
   addToSavedPasswords = () => {
     
     if(!this.state.generatedPassword){
@@ -37,7 +33,7 @@ export default class GenerateScreen extends React.Component {
       db.collection('savedPasswords').add({
         savedPassword : this.state.generatedPassword,
         date : firebase.firestore.FieldValue.serverTimestamp(),
-        
+        userEmail : "siddhantpallod@gmail.com"
       })
   
       this.setState({
@@ -67,15 +63,15 @@ export default class GenerateScreen extends React.Component {
     return (
       <View style={{flex : 1}}>  
 
-      {/* <MyHeader
+      <MyHeader
         title = {'Generate Password'}
         navigation = {this.props.navigation}
-      /> */}
+      />
+
+
         <ImageBackground 
         source = {require('../assets/gradient.jpg')}
         style = {{height: 602,}}>
-
-
 
         <TextInput
           style={{
