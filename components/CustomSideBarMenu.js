@@ -7,45 +7,45 @@ import db from '../config';
 export default class CustomSideBarMenu extends React.Component{
 
         state = {
-            userEmail : firebase.auth().currentUser.email,
-            name : '',
-            docId :''
+            userEmail : firebase.auth().currentUser.email
         }
-    
-
-
-    getUserInfo = () => {
-        var email = this.state.email
-        db.collection('users').where('userEmail','==',email)
-        .onSnapshot(snapshot => {
-            snapshot.forEach(doc => {
-                this.setState({
-                    name : doc.data().firstName + " " + doc.data().lastName,
-                    docId : doc.id
-                })
-            })
-        })
-    }
-    
-    componentDidMount(){
-        this.getUserInfo()
-    }
 
     render(){
         return(
-            <View>
-                <View>
+            <View style={{flex : 1}}>
+
+                <View style = {{flex : 0.1}}>
+                    <Text style = {{
+                        textAlign : 'center',
+                        fontSize : 20,
+                        marginTop : 15,
+                        }}> Hi! {this.state.userEmail} </Text>
+                </View>
+                <View style={{flex : 0.8}}> 
                     <DrawerItems  
                         {...this.props}
                     />
                 </View>
-                <View>
+                <View style={{
+                        flex : 0.2,
+                        justifyContent : 'flex-end',
+                    }}>
                     <TouchableOpacity 
                     onPress = {() => { 
-                    this.props.navigation.navigate('LoginScreen')    
+                    this.props.navigation.navigate('Login')    
                     firebase.auth().signOut
-                }}>
-                        <Text> Logout </Text>
+                }}
+                    style = {{
+                        justifyContent : 'flex-end',
+                        alignSelf: 'center',
+                        backgroundColor : '#ff9900',
+                        borderRadius : 10,
+                        borderColor : '#cc3300',
+                        borderWidth : 3,
+                        marginBottom : 100
+                    }}
+                >
+                        <Text style={{fontSize : 18}}> Logout </Text>
                     </TouchableOpacity>
                 </View>
             

@@ -1,25 +1,23 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 import GenerateScreen from './screens/GenerateScreen';
-import LoginScreen from './screens/LoginScreen';
+import Login from './screens/Login';
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import {AppDrawerNavigator} from './components/AppDrawerNavigator';
 import SavedPasswordsScreen from './screens/SavedPasswordsScreen';
+import {AppTabNavigator} from './components/AppTabNavigator';
 
-export default class App extends React.Component {
-  render(){
+export default function App(){
   return (
-    <View>
-      {/* <AppContainer/> */}
-      <SavedPasswordsScreen/>
-    </View>
+      <AppContainer/>
+      //  <SavedPasswordsScreen/>
   );
-  }
 }
 
 const switchNavigator = createSwitchNavigator({
-  Generate : {screen : GenerateScreen},  
-  Drawer : {screen : AppDrawerNavigator}
+  Login : {screen : Login},
+  Drawer : {screen : AppDrawerNavigator},
+  BottomTab : {screen : AppTabNavigator},
+  // Generate : {screen : GenerateScreen},
 })
 
 const AppContainer = createAppContainer(switchNavigator)

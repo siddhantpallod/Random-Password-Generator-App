@@ -1,23 +1,26 @@
 import React from 'react';
-import { Text, View,FlatList,TouchableOpacity } from 'react-native';
+import { Text, View,FlatList,TouchableOpacity,Clipboard } from 'react-native';
 import {ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 import db from '../config';
+import firebase from 'firebase';
 
 export default class SavedPasswordsScreen extends React.Component {
     
     constructor(){
         super();
         this.state = {
+            email : firebase.auth().currentUser.email,
             allSavedPasswords : [],
             doc_id : '',
-            savedDate : []
+            savedDate : [],
+            clipboardText: ""  
         }
         this.savedRef = null
     }
 
     getSavedPasswords = () => {
-        this.savedRef = db.collection('savedPasswords').where('userEmail','==',"siddhantpallod@gmail.com")
+        this.savedRef = db.collection('savedPasswords').where('userEmail','==',this.state.email )
         .onSnapshot((snapshot) => {
             var savedPasswords = []
             var savedDate = []
@@ -44,13 +47,18 @@ export default class SavedPasswordsScreen extends React.Component {
         this.savedRef()
     }
 
-    onCancelPressed = () => {
-        db.collection('savedPasswords').doc(this.state.doc_id).delete().then( function() {
+    onCancelPressed = (item) => {
+        db.collection('savedPasswords').doc(item).delete().then( function() {
             alert("Document successfully deleted!");
         }).catch(function(error) {
             alert("Error removing document: ", error);
                 })
             }
+
+    // setTextIntoClipboard = async (item) => {
+    //     await Clipboard.setString(item.savedPassword);
+    //     alert("Password Copied!")
+    // }
 
     
     keyExtracter = (item,index) => index.toString()
@@ -77,20 +85,29 @@ export default class SavedPasswordsScreen extends React.Component {
                     <View style = {{marginRight : 850}}>
                     
                     <Text> {item.savedPassword} </Text>
-                    {/* <Text> {item.saveDate} </Text> */}
 
                     </View>
+{/*  
+                <TouchableOpacity onPress={this.setTextIntoClipboard(item)} 
+                    activeOpacity={0.7} >
+                        <Icon
+                            name = 'copy'
+                            type = 'feather'
+                            color = 'black'
+                        />
+                </TouchableOpacity>  */}
 
                     
                     <TouchableOpacity onPress = {()=> {
-                        this.onCancelPressed()
+                        this.onCancelPressed(item.docId)
                     }}>
                         <Icon
-                            name = "x"
+                            name = "trash"
                             type = 'feather'
                             color = 'red'
                         />
                     </TouchableOpacity>
+                    
                     
                     
                 </View>
@@ -98,7 +115,6 @@ export default class SavedPasswordsScreen extends React.Component {
             
             
             title = 'Password:'
-            subtitle = {item.date}
 
             bottomDivider
         />

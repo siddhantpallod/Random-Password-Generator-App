@@ -10,7 +10,7 @@ const MyHeader = props => {
                         type = 'font-awesome'
                         color = 'white'
                         onPress = {()=> {
-                            this.props.navigation.toggleDrawer()
+                            props.navigation.toggleDrawer()
                         }}
                     />
                 }

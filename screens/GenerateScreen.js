@@ -10,6 +10,7 @@ export default class GenerateScreen extends React.Component {
   constructor(){
     super();
     this.state = {
+      email : firebase.auth().currentUser.email,
       generatedPassword : '',
       clipboardText: ""    
     }
@@ -38,7 +39,7 @@ export default class GenerateScreen extends React.Component {
       db.collection('savedPasswords').add({
         savedPassword : this.state.generatedPassword,
         savedDate : firebase.firestore.FieldValue.serverTimestamp(),
-        userEmail : "siddhantpallod@gmail.com",
+        userEmail : this.state.email,
         docId : id
         
       })
