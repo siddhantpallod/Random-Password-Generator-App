@@ -12,7 +12,8 @@ export default class GenerateScreen extends React.Component {
     this.state = {
       email : firebase.auth().currentUser.email,
       generatedPassword : '',
-      clipboardText: ""    
+      clipboardText: "" ,
+      intention: ''
     }
   }
 
@@ -40,12 +41,13 @@ export default class GenerateScreen extends React.Component {
         savedPassword : this.state.generatedPassword,
         savedDate : firebase.firestore.FieldValue.serverTimestamp(),
         userEmail : this.state.email,
-        docId : id
-        
+        docId : id,
+        intention : this.state.intention
       })
   
       this.setState({
-        generatedPassword : ''
+        generatedPassword : '',
+        intention : ''
       })
 
       alert("Password Saved!")
@@ -98,7 +100,7 @@ export default class GenerateScreen extends React.Component {
           editable = {false}
         />
 
-        <TouchableOpacity onPress={this.setTextIntoClipboard} 
+      <TouchableOpacity onPress={this.setTextIntoClipboard} 
         activeOpacity={0.7} 
         style={{
           alignSelf : 'center',
@@ -112,6 +114,29 @@ export default class GenerateScreen extends React.Component {
                 color = 'white'
               />
         </TouchableOpacity>
+
+        <TextInput
+          style={{
+            width : 300,
+            height: 70,
+            borderWidth : 3,
+            alignSelf : 'center',
+            borderColor: 'white',
+            fontSize : 20,
+            marginTop : 50,
+            textAlign : 'center',
+            color : 'white'
+          }}
+          placeholder = 'Intention To Use The Password'
+          placeholderTextColor = 'white'
+          onChangeText = {(text) => {
+            this.setState({
+              intention: text
+            })
+          }}
+        />
+
+       
           
           <TouchableOpacity 
             style={{

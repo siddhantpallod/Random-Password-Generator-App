@@ -14,7 +14,8 @@ export default class SavedPasswordsScreen extends React.Component {
             allSavedPasswords : [],
             doc_id : '',
             savedDate : [],
-            clipboardText: ""  
+            clipboardText: "",
+            allSavedIntentions : ''
         }
         this.savedRef = null
     }
@@ -24,6 +25,7 @@ export default class SavedPasswordsScreen extends React.Component {
         .onSnapshot((snapshot) => {
             var savedPasswords = []
             var savedDate = []
+            var savedIntentions = []
             snapshot.docs.map((doc) => {
                 this.state.doc_id = doc.id
                 var details = doc.data()

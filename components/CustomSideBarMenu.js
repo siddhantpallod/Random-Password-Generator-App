@@ -7,7 +7,7 @@ import db from '../config';
 export default class CustomSideBarMenu extends React.Component{
 
         state = {
-            userEmail : firebase.auth().currentUser.email
+            userEmail :  firebase.auth().currentUser.email
         }
 
     render(){

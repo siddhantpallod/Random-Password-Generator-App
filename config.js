@@ -7,7 +7,8 @@ var firebaseConfig = {
     projectId: "random-password-generato-583c2",
     storageBucket: "random-password-generato-583c2.appspot.com",
     messagingSenderId: "922087192991",
-    appId: "1:922087192991:web:a63a408e406b83fb7765aa"
+    appId: "1:922087192991:web:a63a408e406b83fb7765aa",
+    measurementId: "G-1FH06SNXZV"
   };
   
   // Initialize Firebase

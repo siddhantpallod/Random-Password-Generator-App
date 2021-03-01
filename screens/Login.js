@@ -60,7 +60,8 @@ export default class Login extends React.Component {
                                 marginTop : 100,
                                 width: 300,
                                 height: 50,
-                                fontSize : 20
+                                fontSize : 20,
+                                color: 'white'
                             }}
                             placeholder = "Email"
                             placeholderTextColor = 'white'
@@ -79,7 +80,8 @@ export default class Login extends React.Component {
                                 marginTop : 30,
                                 width: 300,
                                 height: 50,
-                                fontSize : 20
+                                fontSize : 20,
+                                color: 'white'
                                 }}
                         
                             secureTextEntry = {true}
