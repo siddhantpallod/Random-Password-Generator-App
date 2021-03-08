@@ -122,12 +122,12 @@ export default class GenerateScreen extends React.Component {
             borderWidth : 3,
             alignSelf : 'center',
             borderColor: 'white',
-            fontSize : 20,
+            fontSize : 15,
             marginTop : 50,
             textAlign : 'center',
             color : 'white'
           }}
-          placeholder = 'Intention To Use The Password'
+          placeholder = 'Intention To Use The Password (Optional)'
           placeholderTextColor = 'white'
           onChangeText = {(text) => {
             this.setState({

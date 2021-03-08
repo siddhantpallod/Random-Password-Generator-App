@@ -2,6 +2,8 @@ import React from 'react';
 import { TouchableOpacity,ImageBackground, Text, View,TextInput } from 'react-native';
 import firebase from 'firebase';
 import db from '../config';
+import {auth, provider} from '../config';
+import { Button } from '@material-ui/core';
 
 export default class Login extends React.Component {
 
@@ -11,6 +13,15 @@ export default class Login extends React.Component {
             email : '',
             password : ''
         }
+    }
+
+    userSignInWithGoogle = () => {
+        auth.signInWithPopup(provider).then(result => {
+            console.log(result);
+            this.props.navigation.navigate('Generate')
+            alert("Login Successful!")
+        })
+        .catch(error => alert(error.message))
     }
 
     userLogin = (email,password) => {
@@ -112,14 +123,14 @@ export default class Login extends React.Component {
                             }}> Login </Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress = {()=> this.userSignUp(this.state.email, this.state.password)}
+                        <TouchableOpacity 
+                            onPress = {()=> this.userSignUp(this.state.email, this.state.password)}
                             style={{
                                 alignSelf: 'center',
                                 marginTop : 15,
                                 backgroundColor : '#00ff00',
                                 borderRadius : 10,
                                 width : 200 ,
-                                marginBottom : 240 
                             }}
                         >
 
@@ -130,6 +141,26 @@ export default class Login extends React.Component {
                                 }}
                             > Sign Up </Text>
                     </TouchableOpacity>
+
+                    
+                    <TouchableOpacity 
+                            onPress = {()=> this.userSignInWithGoogle()}
+
+                            style={{
+                                marginTop: 15,
+                                alignSelf: 'center',
+                                justifyContent: 'center',
+                                backgroundColor : '#00ff00',
+                                borderRadius : 10,
+                                width : 200,
+                                marginBottom: 198
+                            }}
+                        >
+                            <Text style={{
+                                fontSize : 20,
+                                textAlign : 'center'
+                            }}> Sign In With Google </Text>
+                        </TouchableOpacity>
 
                 </ImageBackground>
             </View>
