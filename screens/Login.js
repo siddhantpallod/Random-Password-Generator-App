@@ -3,7 +3,8 @@ import { TouchableOpacity,ImageBackground, Text, View,TextInput } from 'react-na
 import firebase from 'firebase';
 import db from '../config';
 import {auth, provider} from '../config';
-import { Button } from '@material-ui/core';
+import {SocialIcon} from 'react-native-elements';
+import Button from '@material-ui/core/Button';
 
 export default class Login extends React.Component {
 
@@ -63,6 +64,7 @@ export default class Login extends React.Component {
                             fontSize : 25
                         }}> Random Password Generator </Text>
                     </View>
+ 
 
                         <TextInput
                             style = {{
@@ -72,9 +74,10 @@ export default class Login extends React.Component {
                                 width: 300,
                                 height: 50,
                                 fontSize : 20,
-                                color: 'white'
+                                color: 'white',
                             }}
-                            placeholder = "Email"
+                            type = 'email'
+                            placeholder = 'Email'
                             placeholderTextColor = 'white'
                             keyboardType = 'email-address'
                             onChangeText = {(text)=> {
@@ -82,8 +85,10 @@ export default class Login extends React.Component {
                                     email : text
                                 })
                         }}
-                    />
 
+
+                    />
+                     
                         <TextInput
                             style = {{
                                 alignSelf: 'center',
@@ -96,72 +101,58 @@ export default class Login extends React.Component {
                                 }}
                         
                             secureTextEntry = {true}
-                            placeholder = "Password"
+                            placeholder = 'Password'
                             placeholderTextColor = 'white'
+                            type = 'password'
                             onChangeText = {(text)=> {
                                 this.setState({
                                     password : text
                                 })
                             }}
                             />
+                                
+                    <Button style = {{
+                        marginTop: 15,
+                        alignSelf: 'center',
+                        justifyContent: 'center',
+                        backgroundColor : '#00ff00',
+                        borderRadius : 10,
+                        width : 200,
+                        height: 30,
+                        color: 'white',
+                        fontSize: 20
+                    }} variant = 'contained' onClick = {() => this.userLogin(this.state.email,this.state.password)} > Log In </Button>
+                  
+                  <Button style = {{
+                        marginTop: 15,
+                        alignSelf: 'center',
+                        justifyContent: 'center',
+                        backgroundColor : '#00ff00',
+                        borderRadius : 10,
+                        width : 200,
+                        height: 30,
+                        color: 'white',
+                        fontSize: 20
+                    }} variant = 'contained' onClick = {() => this.userSignUp(this.state.email, this.state.password)} > Sign Up </Button>
 
-                        <TouchableOpacity 
-                            onPress = {()=> {
-                            this.userLogin(this.state.email,this.state.password)
-                        }}
-                            style={{
-                                alignSelf: 'center',
-                                marginTop : 30,
-                                backgroundColor : '#00ff00',
-                                borderRadius : 10,
-                                width : 200  
-                            }}
-                        >
-                            <Text style={{
-                                fontSize : 20,
-                                textAlign : 'center'
-                            }}> Login </Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity 
-                            onPress = {()=> this.userSignUp(this.state.email, this.state.password)}
-                            style={{
-                                alignSelf: 'center',
-                                marginTop : 15,
-                                backgroundColor : '#00ff00',
-                                borderRadius : 10,
-                                width : 200 ,
-                            }}
-                        >
-
-                            <Text 
-                                style={{
-                                    fontSize : 20,
-                                    textAlign : 'center'
-                                }}
-                            > Sign Up </Text>
-                    </TouchableOpacity>
-
-                    
-                    <TouchableOpacity 
+                        <SocialIcon
+                            title = 'LOG IN WITH GOOGLE'
+                            raised 
+                            button
                             onPress = {()=> this.userSignInWithGoogle()}
-
-                            style={{
+                            style = {{
                                 marginTop: 15,
                                 alignSelf: 'center',
                                 justifyContent: 'center',
                                 backgroundColor : '#00ff00',
                                 borderRadius : 10,
                                 width : 200,
-                                marginBottom: 198
+                                marginBottom: 203,
+                                height: 30
                             }}
-                        >
-                            <Text style={{
-                                fontSize : 20,
-                                textAlign : 'center'
-                            }}> Sign In With Google </Text>
-                        </TouchableOpacity>
-
+                            type = 'google'
+                            
+                        />
                 </ImageBackground>
             </View>
         )

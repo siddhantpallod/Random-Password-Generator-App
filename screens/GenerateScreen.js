@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, ImageBackground, TouchableOpacity,Clipboard} from 'react-native';
+import { View, Text, TextInput, ImageBackground, TouchableOpacity, Clipboard} from 'react-native';
 import {Icon} from 'react-native-elements';
 import db from '../config';
 import firebase from 'firebase';
@@ -135,8 +135,6 @@ export default class GenerateScreen extends React.Component {
             })
           }}
         />
-
-       
           
           <TouchableOpacity 
             style={{
