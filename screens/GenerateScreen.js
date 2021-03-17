@@ -13,12 +13,23 @@ export default class GenerateScreen extends React.Component {
       email : firebase.auth().currentUser.email,
       generatedPassword : '',
       clipboardText: "" ,
-      intention: ''
+      generatedIntention : ''
     }
   }
 
   createUniquePassword(){
-    return Math.random().toString(36).substring(2)
+    // return Math.random().toString(36).substring(2)        
+    var generator = require('generate-password')
+    var password = generator.generate({
+      length: 12,
+      numbers: true,
+      uppercase: true,
+      symbols: true,
+      excludeSimilarCharacters: true,
+      exclude: '\|^(){}[]~`<>,./:;^*-_=+"'
+    })
+
+    return password
   }
 
   createPassword = () => {
@@ -28,6 +39,7 @@ export default class GenerateScreen extends React.Component {
 
   createUniqueId = () => {
     return Math.random().toString(36).substring(7)
+    
   }
 
   addToSavedPasswords = () => {
@@ -42,12 +54,12 @@ export default class GenerateScreen extends React.Component {
         savedDate : firebase.firestore.FieldValue.serverTimestamp(),
         userEmail : this.state.email,
         docId : id,
-        intention : this.state.intention
+        intention : this.state.generatedIntention
       })
   
       this.setState({
         generatedPassword : '',
-        intention : ''
+        generatedIntention : '' 
       })
 
       alert("Password Saved!")
@@ -131,7 +143,7 @@ export default class GenerateScreen extends React.Component {
           placeholderTextColor = 'white'
           onChangeText = {(text) => {
             this.setState({
-              intention: text
+              generatedIntention: text
             })
           }}
         />
@@ -149,7 +161,7 @@ export default class GenerateScreen extends React.Component {
             <Text style={{
               fontSize: 20, 
               color : 'black',
-              fontWeight : '700'}}> 
+            }}> 
               Generate Password </Text>
           </TouchableOpacity>
 
@@ -174,7 +186,6 @@ export default class GenerateScreen extends React.Component {
               color : 'black', 
               textAlign : 'center', 
               fontSize : 20,
-              fontWeight : '600'
               }}> 
               Cancel
             </Text>
@@ -204,7 +215,6 @@ export default class GenerateScreen extends React.Component {
               color : 'black', 
               textAlign : 'center', 
               fontSize : 20,
-              fontWeight : '600'
               }}> 
               Save 
             </Text>

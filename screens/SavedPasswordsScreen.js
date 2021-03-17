@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View,FlatList,TouchableOpacity,Clipboard } from 'react-native';
+import { Text, View,FlatList,TouchableOpacity,Clipboard, ActivityIndicator } from 'react-native';
 import {ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 import db from '../config';
@@ -7,15 +7,15 @@ import firebase from 'firebase';
 
 export default class SavedPasswordsScreen extends React.Component {
     
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             email : firebase.auth().currentUser.email,
             allSavedPasswords : [],
             doc_id : '',
             savedDate : [],
             clipboardText: "",
-            allSavedIntentions : ''
+            allSavedIntentions : [],
         }
         this.savedRef = null
     }
@@ -30,13 +30,15 @@ export default class SavedPasswordsScreen extends React.Component {
                 this.state.doc_id = doc.id
                 var details = doc.data()
                 details['doc_id'] = doc.id
+                savedIntentions.push(doc.data().intention)
                 savedPasswords.push(details)
                 savedDate.push(doc.data().savedDate)
             })
 
             this.setState({
                 allSavedPasswords : savedPasswords,
-                savedDate : savedDate
+                savedDate : savedDate,
+                allSavedIntentions: savedIntentions
             })
         })
     }
@@ -44,6 +46,7 @@ export default class SavedPasswordsScreen extends React.Component {
     componentDidMount(){
         this.getSavedPasswords()
     }
+
 
     componentWillUnmount(){
         this.savedRef()
@@ -81,12 +84,14 @@ export default class SavedPasswordsScreen extends React.Component {
                 </View>
             }
 
+
             rightElement = {
                 <View style = {{flexDirection : 'row'}}>
                     
                     <View style = {{marginRight : 850}}>
                     
                     <Text> {item.savedPassword} </Text>
+                    <Text> {item.intention} </Text>
 
                     </View>
 {/*  
@@ -99,7 +104,7 @@ export default class SavedPasswordsScreen extends React.Component {
                         />
                 </TouchableOpacity>  */}
 
-                    
+{/*                     
                     <TouchableOpacity onPress = {()=> {
                         this.onCancelPressed(item.docId)
                     }}>
@@ -109,14 +114,14 @@ export default class SavedPasswordsScreen extends React.Component {
                             color = 'red'
                         />
                     </TouchableOpacity>
-                    
-                    
+                     */}
                     
                 </View>
             }
             
             
             title = 'Password:'
+            subtitle = 'Intention'
 
             bottomDivider
         />
@@ -145,6 +150,7 @@ export default class SavedPasswordsScreen extends React.Component {
                 />
                 )
                  }
+
             </View>
                 
         )

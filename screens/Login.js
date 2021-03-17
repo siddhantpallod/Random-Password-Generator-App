@@ -1,10 +1,13 @@
 import React from 'react';
-import {ImageBackground, Text, View,TextInput } from 'react-native';
+import {ImageBackground, Text, View  } from 'react-native';
 import firebase from 'firebase';
 import db from '../config';
 import {auth, provider} from '../config';
 import {SocialIcon} from 'react-native-elements';
 import Button from '@material-ui/core/Button';
+import {TextInput} from 'react-native-paper';
+import FirebaseUserMetadata from 'firebase'
+
 
 export default class Login extends React.Component {
 
@@ -18,18 +21,36 @@ export default class Login extends React.Component {
 
     userSignInWithGoogle = () => {
         auth.signInWithPopup(provider).then(result => {
-            console.log(result);
-            this.props.navigation.navigate('Generate')
+            this.props.navigation.navigate('Intro')
+            db.collection('users').add({
+                'email': result.user.email,
+            })
             alert("Login Successful!")
+
         })
         .catch(error => alert(error.message))
     }
 
     userLogin = (email,password) => {
         firebase.auth().signInWithEmailAndPassword(email,password)
-        .then(()=>{
-            this.props.navigation.navigate('Generate')
+        .then((result)=>{
+            // FirebaseUserMetadata  = auth.getCurrentUser().getMetadata();
+            // if (FirebaseUserMetadata.getCreationTimestamp() == FirebaseUserMetadata.getLastSignInTimestamp()) {
+                // The user is new, show them a fancy intro screen!
+                this.props.navigation.navigate('Intro')
+            // } else {
+                // This is an existing user, show them a welcome back screen.
+                // this.props.navigation.navigate('Generate')
+            // }
+
+            
+            
             alert("Login Successful!")
+
+            db.collection('users').add({
+                'email': this.state.email,
+                'password': this.state.password,
+            })
         })
         .catch((error)=> {
            var errorMessage = error.message
@@ -57,6 +78,7 @@ export default class Login extends React.Component {
     render() {
         return (
             <View>
+                
                 <ImageBackground source = {require('../assets/gradient2.png')}>
                     <View style = {{backgroundColor : '#ff6561'}}>
                         <Text style = {{
@@ -64,27 +86,28 @@ export default class Login extends React.Component {
                             fontSize : 25
                         }}> Random Password Generator </Text>
                     </View>
- 
+                        
+                        
+                 
 
                         <TextInput
                             style = {{
                                 alignSelf: 'center',
-                                borderWidth : 2,
                                 marginTop : 100,
                                 width: 300,
                                 height: 50,
                                 fontSize : 20,
                                 color: 'white',
                             }}
-                            type = 'email'
-                            placeholder = 'Email'
-                            placeholderTextColor = 'white'
+                            label = 'Email'
+                            mode = 'flat'
                             keyboardType = 'email-address'
                             onChangeText = {(text)=> {
                                 this.setState({
                                     email : text
-                                })
+                                })       
                         }}
+                            
 
 
                     />
@@ -92,17 +115,15 @@ export default class Login extends React.Component {
                         <TextInput
                             style = {{
                                 alignSelf: 'center',
-                                borderWidth : 2,
                                 marginTop : 30,
                                 width: 300,
                                 height: 50,
                                 fontSize : 20,
                                 color: 'white'
                                 }}
-                        
+                            mode = 'flat'
+                            label = 'Password'
                             secureTextEntry = {true}
-                            placeholder = 'Password'
-                            placeholderTextColor = 'white'
                             type = 'password'
                             onChangeText = {(text)=> {
                                 this.setState({
@@ -135,6 +156,15 @@ export default class Login extends React.Component {
                         fontSize: 20
                     }} variant = 'contained' onClick = {() => this.userSignUp(this.state.email, this.state.password)} > Sign Up </Button>
 
+
+                        <Text style = {{
+                            textAlign: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                            marginTop: 17,
+                            fontSize: 25
+                        }} > --------OR-------- </Text>
+
                         <SocialIcon
                             title = 'LOG IN WITH GOOGLE'
                             raised 
@@ -147,7 +177,7 @@ export default class Login extends React.Component {
                                 backgroundColor : '#00ff00',
                                 borderRadius : 10,
                                 width : 200,
-                                marginBottom: 203,
+                                marginBottom: 154,
                                 height: 30
                             }}
                             type = 'google'
@@ -158,3 +188,5 @@ export default class Login extends React.Component {
         )
     }
 }
+
+
