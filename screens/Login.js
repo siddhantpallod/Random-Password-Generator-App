@@ -1,12 +1,10 @@
 import React from 'react';
-import {ImageBackground, Text, View  } from 'react-native';
+import {ImageBackground, Text, View, Button, TouchableOpacity, Platform, StatusBar } from 'react-native';
 import firebase from 'firebase';
 import db from '../config';
 import {auth, provider} from '../config';
 import {SocialIcon} from 'react-native-elements';
-import Button from '@material-ui/core/Button';
 import {TextInput} from 'react-native-paper';
-import FirebaseUserMetadata from 'firebase'
 
 
 export default class Login extends React.Component {
@@ -24,6 +22,7 @@ export default class Login extends React.Component {
             this.props.navigation.navigate('Intro')
             db.collection('users').add({
                 'email': result.user.email,
+                'timestamp': firebase.firestore.FieldValue.serverTimestamp(),
             })
             alert("Login Successful!")
 
@@ -34,23 +33,17 @@ export default class Login extends React.Component {
     userLogin = (email,password) => {
         firebase.auth().signInWithEmailAndPassword(email,password)
         .then((result)=>{
-            // FirebaseUserMetadata  = auth.getCurrentUser().getMetadata();
-            // if (FirebaseUserMetadata.getCreationTimestamp() == FirebaseUserMetadata.getLastSignInTimestamp()) {
-                // The user is new, show them a fancy intro screen!
-                this.props.navigation.navigate('Intro')
-            // } else {
-                // This is an existing user, show them a welcome back screen.
-                // this.props.navigation.navigate('Generate')
-            // }
+            
+                if (Platform.OS == 'web'){
+                    this.props.navigation.navigate('Intro')
+                }
+                else{
+                    this.props.navigation.navigate('Generate')
+                }
 
-            
-            
             alert("Login Successful!")
 
-            db.collection('users').add({
-                'email': this.state.email,
-                'password': this.state.password,
-            })
+            
         })
         .catch((error)=> {
            var errorMessage = error.message
@@ -63,8 +56,11 @@ export default class Login extends React.Component {
             
             db.collection('users').add({
                 userEmail : this.state.email,
-                password : this.state.password
+                password : this.state.password,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
+
+      
             
             return alert("User Added Successfully")
         })
@@ -78,8 +74,9 @@ export default class Login extends React.Component {
     render() {
         return (
             <View>
-                
-                <ImageBackground source = {require('../assets/gradient2.png')}>
+                <StatusBar barStyle = 'light-content' hidden = {false} translucent = {false}  />
+                <ImageBackground style = {{width: '100%', height: '100%'}} source = {require('../assets/gradient2.png')}>
+                    
                     <View style = {{backgroundColor : '#ff6561'}}>
                         <Text style = {{
                             textAlign : 'center',
@@ -87,9 +84,6 @@ export default class Login extends React.Component {
                         }}> Random Password Generator </Text>
                     </View>
                         
-                        
-                 
-
                         <TextInput
                             style = {{
                                 alignSelf: 'center',
@@ -107,9 +101,6 @@ export default class Login extends React.Component {
                                     email : text
                                 })       
                         }}
-                            
-
-
                     />
                      
                         <TextInput
@@ -131,31 +122,40 @@ export default class Login extends React.Component {
                                 })
                             }}
                             />
-                                
-                    <Button style = {{
-                        marginTop: 15,
-                        alignSelf: 'center',
-                        justifyContent: 'center',
-                        backgroundColor : '#00ff00',
-                        borderRadius : 10,
-                        width : 200,
-                        height: 30,
-                        color: 'white',
-                        fontSize: 20
-                    }} variant = 'contained' onClick = {() => this.userLogin(this.state.email,this.state.password)} > Log In </Button>
-                  
-                  <Button style = {{
-                        marginTop: 15,
-                        alignSelf: 'center',
-                        justifyContent: 'center',
-                        backgroundColor : '#00ff00',
-                        borderRadius : 10,
-                        width : 200,
-                        height: 30,
-                        color: 'white',
-                        fontSize: 20
-                    }} variant = 'contained' onClick = {() => this.userSignUp(this.state.email, this.state.password)} > Sign Up </Button>
 
+                        <TouchableOpacity style = {{
+                            alignItems: 'center',
+                            backgroundColor: '#00ff00',
+                            width: 200,
+                            height: 30,
+                            justifyContent:'center',
+                            borderRadius: 10,
+                            alignSelf: 'center',
+                            marginTop: 30,
+                        }} onPress = {() => this.userLogin(this.state.email, this.state.password)} >
+                            <Text style = {{
+                                color: 'white',
+                                fontSize: 20
+                            }}> LOG IN </Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style = {{
+                            alignItems: 'center',
+                            backgroundColor: '#00ff00',
+                            width: 200,
+                            height: 30,
+                            justifyContent:'center',
+                            borderRadius: 10,
+                            alignSelf: 'center',
+                            marginTop: 15,
+                        }} onPress = {() => this.userSignUp(this.state.email, this.state.password)} >
+                            <Text style = {{
+                                color: 'white',
+                                fontSize: 20
+                            }}> SIGN UP </Text>
+                        </TouchableOpacity>
+                                
+                    
 
                         <Text style = {{
                             textAlign: 'center',
@@ -164,7 +164,7 @@ export default class Login extends React.Component {
                             marginTop: 17,
                             fontSize: 25
                         }} > --------OR-------- </Text>
-
+                        
                         <SocialIcon
                             title = 'LOG IN WITH GOOGLE'
                             raised 
@@ -177,15 +177,14 @@ export default class Login extends React.Component {
                                 backgroundColor : '#00ff00',
                                 borderRadius : 10,
                                 width : 200,
-                                marginBottom: 154,
+                                marginBottom: 138,
                                 height: 30
                             }}
-                            type = 'google'
-                            
+                            type = 'google'   
                         />
                 </ImageBackground>
             </View>
-        )
+            )
     }
 }
 

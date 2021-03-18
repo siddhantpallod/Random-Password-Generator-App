@@ -16,12 +16,11 @@ const slides = [
       text: '    ',
       image: require('../assets/second.gif'),
       backgroundColor: '#7CC7FF',
-  
     },
     {
       key: 'three',
       title: 'Goodbye To Traditional Passwords!',
-      text: 'No need to think so much on your passwords',
+      text: 'No need to think so much on your passwords.',
       image: require('../assets/four.gif'),
       backgroundColor: '#6891FF'
     },

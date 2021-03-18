@@ -18,18 +18,23 @@ export default class GenerateScreen extends React.Component {
   }
 
   createUniquePassword(){
-    // return Math.random().toString(36).substring(2)        
-    var generator = require('generate-password')
-    var password = generator.generate({
-      length: 12,
-      numbers: true,
-      uppercase: true,
-      symbols: true,
-      excludeSimilarCharacters: true,
-      exclude: '\|^(){}[]~`<>,./:;^*-_=+"'
-    })
+    // var password =  Math.random().toString(36).substring(2)        
 
+    // var generator = require('generate-password')
+    // var password = generator.generate({
+    //   length: 12,
+    //   numbers: true,
+    //   uppercase: true,
+    //   symbols: true,
+    //   excludeSimilarCharacters: true,
+    //   exclude: '\|^(){}[]~`<>,./:;^*-_=+"',
+    //   strict: true
+    // })
+
+
+    var password = Array(15).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&?").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
     return password
+
   }
 
   createPassword = () => {
@@ -93,7 +98,7 @@ export default class GenerateScreen extends React.Component {
 
         <ImageBackground 
         source = {require('../assets/gradient.jpg')}
-        style = {{height: 558,}}>
+        style = {{height: '100%', width: '100%'}}>
 
         <TextInput
           style={{
@@ -139,7 +144,7 @@ export default class GenerateScreen extends React.Component {
             textAlign : 'center',
             color : 'white'
           }}
-          placeholder = 'Intention To Use The Password (Optional)'
+          placeholder = 'Purpose To Use The Password (Optional)'
           placeholderTextColor = 'white'
           onChangeText = {(text) => {
             this.setState({
@@ -216,10 +221,9 @@ export default class GenerateScreen extends React.Component {
               textAlign : 'center', 
               fontSize : 20,
               }}> 
-              Save 
+              Save      
             </Text>
 
-            <Text>  </Text>
             
             <Icon
               name = 'save'

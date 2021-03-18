@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View,FlatList,TouchableOpacity,Clipboard, ActivityIndicator } from 'react-native';
+import { Text, View,FlatList,TouchableOpacity,Clipboard, Platform } from 'react-native';
 import {ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 import db from '../config';
@@ -70,8 +70,8 @@ export default class SavedPasswordsScreen extends React.Component {
     
     renderItem = ({item,I}) => (
 
-
-        <ListItem
+        (Platform.OS == 'web' ? (
+            <ListItem
             key = {I}
             leftElement = {
                 <View style = {{marginRight : 50}}>
@@ -83,15 +83,15 @@ export default class SavedPasswordsScreen extends React.Component {
                 />
                 </View>
             }
-
+            
 
             rightElement = {
                 <View style = {{flexDirection : 'row'}}>
                     
                     <View style = {{marginRight : 850}}>
                     
-                    <Text> {item.savedPassword} </Text>
-                    <Text> {item.intention} </Text>
+                    <Text style = {{textAlign: 'center'}}> {item.savedPassword} </Text>
+                    <Text style = {{textAlign: 'center'}}> {item.intention} </Text>
 
                     </View>
 {/*  
@@ -121,10 +121,68 @@ export default class SavedPasswordsScreen extends React.Component {
             
             
             title = 'Password:'
-            subtitle = 'Intention'
+            subtitle = 'Purpose:'
 
             bottomDivider
         />
+        ) : (
+            <ListItem
+            key = {I}
+            leftElement = {
+                <View style = {{marginRight : 50}}>
+                
+                <Icon
+                    name = 'shield'
+                    type = 'font-awesome'
+                    
+                />
+                </View>
+            }
+            
+
+            rightElement = {
+                <View style = {{flexDirection : 'row'}}>
+                    
+                    <View style = {{marginRight : 70}}>
+                    
+                    <Text style = {{textAlign: 'center'}}> {item.savedPassword} </Text>
+                    <Text style = {{textAlign: 'center'}}> {item.intention} </Text>
+
+                    </View>
+{/*  
+                <TouchableOpacity onPress={this.setTextIntoClipboard(item)} 
+                    activeOpacity={0.7} >
+                        <Icon
+                            name = 'copy'
+                            type = 'feather'
+                            color = 'black'
+                        />
+                </TouchableOpacity>  */}
+
+{/*                     
+                    <TouchableOpacity onPress = {()=> {
+                        this.onCancelPressed(item.docId)
+                    }}>
+                        <Icon
+                            name = "trash"
+                            type = 'feather'
+                            color = 'red'
+                        />
+                    </TouchableOpacity>
+                     */}
+                    
+                </View>
+            }
+            
+            
+            title = 'Password:'
+            subtitle = 'Purpose:'
+
+            bottomDivider
+            />
+        ))
+
+      
     )
     
     
@@ -139,7 +197,11 @@ export default class SavedPasswordsScreen extends React.Component {
                 {this.state.allSavedPasswords.length === 0 ?
                 (
                     <View>
-                       <Text> You Have No Saved Passwords </Text>
+                       <Text style = {{
+                           textAlign: 'center',
+                           fontSize: 30,
+                           justifyContent: 'center'
+                       }} > You Have No Saved Passwords. </Text>
                         </View>
                 ) : (
                 
