@@ -126,7 +126,7 @@ export default class Login extends React.Component {
     
                             <TouchableOpacity style = {{
                                 alignItems: 'center',
-                                backgroundColor: '#00ff00',
+                                backgroundColor: '#939597',
                                 width: 200,
                                 height: 30,
                                 justifyContent:'center',
@@ -143,7 +143,7 @@ export default class Login extends React.Component {
     
                             <TouchableOpacity style = {{
                                 alignItems: 'center',
-                                backgroundColor: '#00ff00',
+                                backgroundColor: '#939597',
                                 width: 200,
                                 height: 30,
                                 justifyContent:'center',
@@ -177,7 +177,7 @@ export default class Login extends React.Component {
                                     marginTop: 15,
                                     alignSelf: 'center',
                                     justifyContent: 'center',
-                                    backgroundColor : '#00ff00',
+                                    backgroundColor : '#939597',
                                     borderRadius : 10,
                                     width : 200,
                                     marginBottom: 138,
@@ -244,7 +244,7 @@ export default class Login extends React.Component {
     
                             <TouchableOpacity style = {{
                                 alignItems: 'center',
-                                backgroundColor: '#00ff00',
+                                backgroundColor: '#939597',
                                 width: 200,
                                 height: 30,
                                 justifyContent:'center',
@@ -261,7 +261,7 @@ export default class Login extends React.Component {
     
                             <TouchableOpacity style = {{
                                 alignItems: 'center',
-                                backgroundColor: '#00ff00',
+                                backgroundColor: '#939597',
                                 width: 200,
                                 height: 30,
                                 justifyContent:'center',

@@ -38,7 +38,7 @@ export default class CustomSideBarMenu extends React.Component{
                     style = {{
                         justifyContent : 'flex-end',
                         alignSelf: 'center',
-                        backgroundColor : '#00ff00',
+                        backgroundColor : '#939597',
                         borderRadius : 20,
                         marginBottom : 100,
                         width: 200,
@@ -47,7 +47,7 @@ export default class CustomSideBarMenu extends React.Component{
                         borderWidth: 2
                     }}
                 >
-                        <Text style={{fontSize : 18, textAlign: 'center'}}> Logout </Text>
+                        <Text style={{fontSize : 18, textAlign: 'center', color: 'white'}}> Logout </Text>
                     </TouchableOpacity>
                 </View>
             

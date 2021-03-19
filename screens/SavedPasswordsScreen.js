@@ -4,6 +4,7 @@ import {ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 import db from '../config';
 import firebase from 'firebase';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 export default class SavedPasswordsScreen extends React.Component {
     
@@ -60,10 +61,10 @@ export default class SavedPasswordsScreen extends React.Component {
                 })
             }
 
-    // setTextIntoClipboard = async (item) => {
-    //     await Clipboard.setString(item.savedPassword);
-    //     alert("Password Copied!")
-    // }
+    setTextIntoClipboard = async (item) => {
+        await Clipboard.setString(item.savedPassword);
+        alert("Password Copied!")
+    }
 
     
     keyExtracter = (item,index) => index.toString()
@@ -91,18 +92,18 @@ export default class SavedPasswordsScreen extends React.Component {
                     <View style = {{marginRight : 850}}>
                     
                     <Text style = {{textAlign: 'center'}}> {item.savedPassword} </Text>
-                    <Text style = {{textAlign: 'center'}}> {item.intention} </Text>
+                    <Text style = {{textAlign: 'center', opacity: 0.5}}> {item.intention} </Text>
 
                     </View>
-{/*  
-                <TouchableOpacity onPress={this.setTextIntoClipboard(item)} 
+ 
+                <TouchableOpacity onPress={() => this.setTextIntoClipboard(item)} 
                     activeOpacity={0.7} >
                         <Icon
                             name = 'copy'
                             type = 'feather'
                             color = 'black'
                         />
-                </TouchableOpacity>  */}
+                </TouchableOpacity> 
 
 {/*                     
                     <TouchableOpacity onPress = {()=> {
@@ -129,7 +130,7 @@ export default class SavedPasswordsScreen extends React.Component {
             <ListItem
             key = {I}
             leftElement = {
-                <View style = {{marginRight : 50}}>
+                <View style = {{marginRight : 5}}>
                 
                 <Icon
                     name = 'shield'
@@ -145,22 +146,22 @@ export default class SavedPasswordsScreen extends React.Component {
                     
                     <View style = {{marginRight : 70}}>
                     
-                    <Text style = {{textAlign: 'center'}}> {item.savedPassword} </Text>
-                    <Text style = {{textAlign: 'center'}}> {item.intention} </Text>
+                    <Text style = {{textAlign: 'center', fontSize: RFValue(17)}}> {item.savedPassword} </Text>
+                    <Text style = {{textAlign: 'center', fontSize: RFValue(15), opacity: 0.5}}> {item.intention} </Text>
 
                     </View>
-{/*  
-                <TouchableOpacity onPress={this.setTextIntoClipboard(item)} 
+ 
+                <TouchableOpacity onPress={() =>this.setTextIntoClipboard(item)} 
                     activeOpacity={0.7} >
                         <Icon
                             name = 'copy'
                             type = 'feather'
                             color = 'black'
                         />
-                </TouchableOpacity>  */}
+                </TouchableOpacity> 
 
-{/*                     
-                    <TouchableOpacity onPress = {()=> {
+                    
+                    {/* <TouchableOpacity onPress = {()=> {
                         this.onCancelPressed(item.docId)
                     }}>
                         <Icon
@@ -168,14 +169,14 @@ export default class SavedPasswordsScreen extends React.Component {
                             type = 'feather'
                             color = 'red'
                         />
-                    </TouchableOpacity>
-                     */}
+                    </TouchableOpacity> */}
+                    
                     
                 </View>
             }
             
             
-            title = 'Password:'
+            title = 'Pass:'
             subtitle = 'Purpose:'
 
             bottomDivider

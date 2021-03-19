@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, ImageBackground, TouchableOpacity, Clipboard} from 'react-native';
+import { View, Text, TextInput, ImageBackground, TouchableOpacity, Clipboard, Platform} from 'react-native';
 import {Icon} from 'react-native-elements';
 import db from '../config';
 import firebase from 'firebase';
@@ -32,7 +32,7 @@ export default class GenerateScreen extends React.Component {
     // })
 
 
-    var password = Array(13).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&?").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
+    var password = Array(12).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&?").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
     return password
 
   }
@@ -121,8 +121,15 @@ export default class GenerateScreen extends React.Component {
         activeOpacity={0.7} 
         style={{
           alignSelf : 'center',
-          marginLeft : 340,
-          marginTop : -50
+          marginTop : -50,
+          ...Platform.select({
+            web: {
+              marginLeft: 350
+            },
+            default: {
+              marginLeft: 330
+            }
+          })
           }} >
               <Icon
                 name = 'copy'

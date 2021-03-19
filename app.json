@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Random-Password-Generator-App",
-    "slug": "Random-Password-Generator-App",
+    "name": "Random Password Generator",
+    "slug": "Random-Password-Generator",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/second.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#7CC7FF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,18 +19,18 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.siddhantpallod.randompasswordgenerator",
-      "buildNumber": "1.0.1"
+      "buildNumber": "1.0.2"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.siddhantpallod.randompasswordgenerator",
-      "versionCode": 2
+      "versionCode": 3
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo.png"
     }
   }
 }

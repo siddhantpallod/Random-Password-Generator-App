@@ -1,5 +1,6 @@
 import React from 'react';
 import {Header,Icon} from 'react-native-elements';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 const MyHeader = props => {
         return (
@@ -17,7 +18,7 @@ const MyHeader = props => {
 
                 centerComponent = {{
                     text :  props.title,
-                    style : {fontSize : 25, fontWeight : 'bold'}
+                    style : {fontSize : RFValue(20), fontWeight : 'bold'}
                 }}
             
                 backgroundColor = "#ff6561"
