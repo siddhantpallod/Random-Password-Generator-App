@@ -32,7 +32,7 @@ export default class GenerateScreen extends React.Component {
     // })
 
 
-    var password = Array(15).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&?").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
+    var password = Array(13).fill("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%&?").map(function(x) { return x[Math.floor(Math.random() * x.length)] }).join('');
     return password
 
   }
