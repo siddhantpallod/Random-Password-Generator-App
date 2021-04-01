@@ -5,6 +5,8 @@ import MyHeader from '../components/MyHeader';
 import db from '../config';
 import firebase from 'firebase';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {AdMobBanner, setTestDeviceIDAsync} from 'expo-ads-admob'
+
 
 export default class SavedPasswordsScreen extends React.Component {
     
@@ -188,6 +190,7 @@ export default class SavedPasswordsScreen extends React.Component {
     
     
     render() {
+        if(Platform.OS == 'web'){
         return (
             <View style={{flex : 1}}>
 
@@ -217,6 +220,46 @@ export default class SavedPasswordsScreen extends React.Component {
             </View>
                 
         )
+        }
+        else{
+            return (
+                <View style={{flex : 1}}>
+    
+                    <MyHeader
+                        title = "Saved Passwords"
+                        navigation = {this.props.navigation}
+                    />
+                    {this.state.allSavedPasswords.length === 0 ?
+                    (
+                        <View>
+                           <Text style = {{
+                               textAlign: 'center',
+                               fontSize: 30,
+                               justifyContent: 'center'
+                           }} > You Have No Saved Passwords. </Text>
+                            </View>
+                    ) : (
+                    
+                    <FlatList
+                        keyExtractor = {this.keyExtracter}
+                        data = {this.state.allSavedPasswords}
+                        renderItem = {this.renderItem}
+                    />
+                    )
+                     }
+                        <AdMobBanner
+                        bannerSize = "smartBannerPortrait"
+                        setTestDeviceIDAsync = "EMULATOR"
+                        adUnitID = "ca-app-pub-1211516081114981/5167199993"
+                        servePersonalizedAds
+                        // adUnitID = "ca-app-pub-3940256099942544/6300978111" test id of google
+                        onDidFailToReceiveAdWithError = {(e) => alert(e)}
+                    />
+    
+                </View>
+                    
+            )
+        }
     }
 }
 

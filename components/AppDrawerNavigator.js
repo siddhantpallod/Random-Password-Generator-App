@@ -4,6 +4,8 @@ import GenerateScreen from '../screens/GenerateScreen';
 import SavedPasswordsScreen from '../screens/SavedPasswordsScreen';
 import CustomSideBarMenu from './CustomSideBarMenu';
 import {AppTabNavigator} from './AppTabNavigator';
+import SettingsScreen from '../screens/SettingsScreen';
+
 
 export const AppDrawerNavigator = createDrawerNavigator({
     Home : {
@@ -12,6 +14,10 @@ export const AppDrawerNavigator = createDrawerNavigator({
     SavedPasswords : {
         screen : SavedPasswordsScreen
     },
+    Settings: {
+        screen: SettingsScreen
+    }
+ 
 },
 
 {

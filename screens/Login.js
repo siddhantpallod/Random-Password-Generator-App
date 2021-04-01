@@ -1,10 +1,10 @@
 import React from 'react';
-import {ImageBackground, Text, View, Button, TouchableOpacity, Platform, StatusBar } from 'react-native';
+import {ImageBackground, Text, View, TouchableOpacity, Platform, StatusBar } from 'react-native';
 import firebase from 'firebase';
 import db from '../config';
 import {auth, provider} from '../config';
 import {SocialIcon} from 'react-native-elements';
-import {TextInput} from 'react-native-paper';
+import {TextInput, Modal} from 'react-native-paper';
 
 
 export default class Login extends React.Component {
@@ -13,17 +13,16 @@ export default class Login extends React.Component {
         super();
         this.state = {
             email : '',
-            password : ''
+            password : '',
+            forgotEmail: '',
+            modalVisible: false,
         }
     }
+
 
     userSignInWithGoogle = () => {
         auth.signInWithPopup(provider).then(result => {
             this.props.navigation.navigate('Intro')
-            db.collection('users').add({
-                'email': result.user.email,
-                'timestamp': firebase.firestore.FieldValue.serverTimestamp(),
-            })
             alert("Login Successful!")
 
         })
@@ -53,12 +52,6 @@ export default class Login extends React.Component {
 
       userSignUp = (email,password) => {
         firebase.auth().createUserWithEmailAndPassword(email,password).then(()=> {
-            
-            db.collection('users').add({
-                userEmail : this.state.email,
-                password : this.state.password,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            })
 
             this.userLogin(this.state.email, this.state.password)
             
@@ -69,19 +62,30 @@ export default class Login extends React.Component {
             var errorMessage = error.message
             return alert(errorMessage)
         })
+
+
 }
+
+    forgotPassword = (email) => {
+        firebase.auth().sendPasswordResetEmail(email)
+        .catch((error) => {
+            var errorMessage = error.message
+            return alert(errorMessage)
+        })
+    }
 
     render() {
         if(Platform.OS == 'web'){
             return (
                 <View>
                     <StatusBar barStyle = 'light-content' hidden = {false} translucent = {false}  />
-                    <ImageBackground style = {{width: '100%', height: '100%'}} source = {require('../assets/gradient2.png')}>
+                    <ImageBackground style = {{width: '100%', height: '100%'}} source = {require('../assets/gradient2.jpg')}>
                         
                         <View style = {{backgroundColor : '#ff6561'}}>
                             <Text style = {{
                                 textAlign : 'center',
-                                fontSize : 25
+                                fontSize : 25,
+                                fontWeight: 'bold'
                             }}> Random Password Generator </Text>
                         </View>
                             
@@ -180,26 +184,88 @@ export default class Login extends React.Component {
                                     backgroundColor : '#939597',
                                     borderRadius : 10,
                                     width : 200,
-                                    marginBottom: 138,
                                     height: 30,
                                     borderWidth: 1,
                                 }}
                                 type = 'google'   
                             />
+                            <TouchableOpacity onPress = {() => this.setState({modalVisible: true})}>
+                                <Text style = {{
+                                    color: 'white',
+                                    fontSize: 18,
+                                    textAlign: 'center',
+                                    marginTop: 50,
+                                    textDecorationLine: 'underline',
+                                    marginBottom: 58
+                                }}> Forgot Your Password? </Text>
+                            </TouchableOpacity>
+
                     </ImageBackground>
+
+                    <Modal 
+            visible = {this.state.modalVisible} 
+            onDismiss = {() => this.setState({modalVisible: false})}
+            >
+                    <TextInput
+                            style = {{
+                                alignSelf: 'center',
+                                width: 300,
+                                height: 50,
+                                fontSize : 20,
+                                color: 'white',
+                            }}
+                            label = 'Email'
+                            mode = 'flat'
+                            keyboardType = 'email-address'
+                            onChangeText = {(text)=> {
+                                this.setState({
+                                    forgotEmail : text
+                                })       
+                            }}
+                        />
+                        <TouchableOpacity 
+                        style = {{
+                            alignItems: 'center',
+                            backgroundColor: '#939597',
+                            width: 200,
+                            height: 30,
+                            justifyContent:'center',
+                            borderRadius: 10,
+                            alignSelf: 'center',
+                            marginTop: 15,
+                            borderWidth: 2
+                        }}
+                        onPress = {() => {
+                            this.forgotPassword(this.state.forgotEmail)
+                            alert('Please Check Your Email')
+                            this.setState({modalVisible: false})
+                        }}
+                        >
+                            <Text
+                            style = {{
+                            color: 'white',
+                            fontSize: 20
+                            }}
+                            >
+                                Mail Me
+                            </Text>
+                        </TouchableOpacity>
+                    </Modal>
                 </View>
                 )
         }
         else{
+            
             return (
                 <View>
                     <StatusBar barStyle = 'light-content' hidden = {false} translucent = {false}  />
-                    <ImageBackground style = {{width: '100%', height: '100%'}} source = {require('../assets/gradient2.png')}>
+                    <ImageBackground style = {{width: '100%', height: '100%'}} source = {require('../assets/gradient2.jpg')}>
                         
                         <View style = {{backgroundColor : '#ff6561'}}>
                             <Text style = {{
                                 textAlign : 'center',
-                                fontSize : 25
+                                fontSize : 25,
+                                fontWeight: 'bold'
                             }}> Random Password Generator </Text>
                         </View>
                             
@@ -275,12 +341,74 @@ export default class Login extends React.Component {
                                     fontSize: 20
                                 }}> SIGN UP </Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity onPress = {() => this.setState({modalVisible: true})}>
+                                <Text style = {{
+                                    color: 'white',
+                                    fontSize: 18,
+                                    textAlign: 'center',
+                                    marginTop: 50,
+                                    textDecorationLine: 'underline'
+                                }}> Forgot Your Password? </Text>
+                            </TouchableOpacity>
+
                     </ImageBackground>
+
+          <Modal 
+            visible = {this.state.modalVisible} 
+            onDismiss = {() => this.setState({modalVisible: false})}
+            >
+                    <TextInput
+                            style = {{
+                                alignSelf: 'center',
+                                width: 300,
+                                height: 50,
+                                fontSize : 20,
+                                color: 'white',
+                            }}
+                            label = 'Email'
+                            mode = 'flat'
+                            keyboardType = 'email-address'
+                            onChangeText = {(text)=> {
+                                this.setState({
+                                    forgotEmail : text
+                                })       
+                            }}
+                        />
+                        <TouchableOpacity 
+                        style = {{
+                            alignItems: 'center',
+                            backgroundColor: '#939597',
+                            width: 200,
+                            height: 30,
+                            justifyContent:'center',
+                            borderRadius: 10,
+                            alignSelf: 'center',
+                            marginTop: 15,
+                            borderWidth: 2
+                        }}
+                        onPress = {() => {
+                            this.forgotPassword(this.state.forgotEmail)
+                            alert('Please Check Your Email')
+                            this.setState({modalVisible: false})
+                        }}
+                        >
+                            <Text
+                            style = {{
+                            color: 'white',
+                            fontSize: 20
+                            }}
+                            >
+                                Mail Me
+                            </Text>
+                        </TouchableOpacity>
+                    </Modal>
                 </View>
                 )
         }
-        
     }
+        
+    
 }
 
 

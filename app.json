@@ -6,9 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
-      "image": "./assets/second.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#7CC7FF"
+      "backgroundColor": "#3498DB"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,6 +25,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-1211516081114981~9778622176"
       },
       "package": "com.siddhantpallod.randompasswordgenerator",
       "versionCode": 3
