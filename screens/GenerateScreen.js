@@ -426,7 +426,6 @@ export default class GenerateScreen extends React.Component {
             bannerSize = "smartBannerPortrait"
             setTestDeviceIDAsync = "EMULATOR"
             adUnitID = "ca-app-pub-1211516081114981/5167199993"
-            servePersonalizedAds
             // adUnitID = "ca-app-pub-3940256099942544/6300978111" test id of google
             onDidFailToReceiveAdWithError = {(e) => alert(e)}
           />
