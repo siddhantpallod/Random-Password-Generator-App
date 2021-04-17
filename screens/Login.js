@@ -5,7 +5,7 @@ import db from '../config';
 import {auth, provider} from '../config';
 import {SocialIcon} from 'react-native-elements';
 import {TextInput, Modal} from 'react-native-paper';
-
+import * as GoogleAuth from 'expo-google-app-auth';
 
 export default class Login extends React.Component {
 
@@ -16,9 +16,34 @@ export default class Login extends React.Component {
             password : '',
             forgotEmail: '',
             modalVisible: false,
+            userLoggedIn: false
         }
     }
 
+    signInWithGoogle = () => {
+        GoogleAuth.logInAsync({
+            androidClientId: '922087192991-j2fhtdigvd5lkoq8od6dgl7f97gvr46h.apps.googleusercontent.com',
+            androidStandaloneAppClientId: '922087192991-j2fhtdigvd5lkoq8od6dgl7f97gvr46h.apps.googleusercontent.com',
+            scopes : ['profile', 'email']
+        })
+        .then((loginResult) => {
+            if(loginResult.type === 'success'){
+                const {idToken, accessToken} = loginResult;
+                const credential = firebase.auth.GoogleAuthProvider.credential(
+                    idToken,
+                    accessToken
+                );
+
+                this.props.navigation.navigate('Generate')
+                firebase.auth().signInWithCredential(credential)
+
+            }
+            return Promise.reject()
+        })
+        .catch((error) => {
+            alert(error.message)
+        })
+    }
 
     userSignInWithGoogle = () => {
         auth.signInWithPopup(provider).then(result => {
@@ -62,10 +87,8 @@ export default class Login extends React.Component {
             var errorMessage = error.message
             return alert(errorMessage)
         })
-
-
-}
-
+    }
+    
     forgotPassword = (email) => {
         firebase.auth().sendPasswordResetEmail(email)
         .catch((error) => {
@@ -342,6 +365,31 @@ export default class Login extends React.Component {
                                 }}> SIGN UP </Text>
                             </TouchableOpacity>
 
+                            <Text style = {{
+                                textAlign: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                marginTop: 17,
+                                fontSize: 25,
+                            }} > ----------OR---------- </Text>
+                            
+                            <SocialIcon
+                                title = 'LOG IN WITH GOOGLE'
+                                raised 
+                                button
+                                onPress = {() => this.signInWithGoogle()}
+                                style = {{
+                                    marginTop: 15,
+                                    alignSelf: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor : '#939597',
+                                    borderRadius : 10,
+                                    width : 200,
+                                    height: 30,
+                                    borderWidth: 1,
+                                }}
+                                type = 'google'   />
+
                             <TouchableOpacity onPress = {() => this.setState({modalVisible: true})}>
                                 <Text style = {{
                                     color: 'white',
@@ -407,8 +455,4 @@ export default class Login extends React.Component {
                 )
         }
     }
-        
-    
 }
-
-

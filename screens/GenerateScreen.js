@@ -417,7 +417,7 @@ export default class GenerateScreen extends React.Component {
               </TouchableOpacity>
               </View>
                 
-              {{adRewarded} ? (<View></View>) : (
+              {/* {{adRewarded} ? (<View></View>) : ( */}
                 <View >
               <AdMobBanner
             style = {{
@@ -427,10 +427,10 @@ export default class GenerateScreen extends React.Component {
             setTestDeviceIDAsync = "EMULATOR"
             adUnitID = "ca-app-pub-1211516081114981/5167199993"
             // adUnitID = "ca-app-pub-3940256099942544/6300978111" test id of google
-            onDidFailToReceiveAdWithError = {(e) => alert(e)}
+            // onDidFailToReceiveAdWithError = {(e) => alert(e)}
           />
           </View>
-          )} 
+          {/* )}  */}
      
             </ImageBackground>
          
