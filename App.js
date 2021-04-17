@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import GenerateScreen from './screens/GenerateScreen';
 import Login from './screens/Login';
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
@@ -10,13 +10,12 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import Intro from './screens/Intro';
 
 
-export default class App extends React.Component{
-
+export default class App extends React.Component {
   render(){
       return (
         <AppContainer/>
       )
-    }
+  }
 }
 
 const switchNavigator = createSwitchNavigator({
