@@ -1,9 +1,11 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, ImageBackground, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, ImageBackground, Platform, Alert } from 'react-native';
 import firebase from 'firebase';
 import {TextInput, Modal} from 'react-native-paper';
 import MyHeader from '../components/MyHeader';
 import { AdMobBanner, setTestDeviceIDAsync } from 'expo-ads-admob';
+import {Rating, AirbnbRating} from 'react-native-ratings';
+import db from '../config';
 
 export default class SettingsScreen extends React.Component {
 
@@ -12,26 +14,36 @@ export default class SettingsScreen extends React.Component {
         this.state = {
             currentUser: firebase.auth().currentUser,
             updatedPassword: '',
-            deletUserModal: false
+            deletUserModal: false,
         }
     }
 
     updatePassword = (password) => {
         firebase.auth().currentUser.updatePassword(password).then(() => {
-            alert('Password Updated')
+            if(Platform.OS == 'web'){
+                alert("Password Updated!")
+              }
+              else if(Platform.OS == 'android'){
+                ToastAndroid.show("Password Updated!", ToastAndroid.SHORT)
+              }
         }).catch((error) => {
             var errorMessage = error.message
-            alert(errorMessage)
+            Alert.alert(errorMessage)
         })
     }
 
     deleteUser = () => {
         firebase.auth().currentUser.delete().then(() => {
-            alert('User Deleted')
+            if(Platform.OS == 'web'){
+                alert("User Deleted")
+              }
+              else if(Platform.OS == 'android'){
+                ToastAndroid.show("User Deleted", ToastAndroid.SHORT)
+              }
             this.props.navigation.navigate('Login')
         }).catch((error) => {
             var message = error.message
-            alert(message)
+            Alert.alert(message)
         })
     }
 
@@ -100,7 +112,6 @@ export default class SettingsScreen extends React.Component {
                     alignSelf: 'center',
                     marginTop: 30,
                     borderWidth: 2,
-                    marginBottom: 400
                 }}
             >
                 <Text style = {{fontSize: 20, fontWeight: 'bold'}}> Delete Account </Text>
@@ -221,17 +232,23 @@ export default class SettingsScreen extends React.Component {
                         alignSelf: 'center',
                         marginTop: 30,
                         borderWidth: 2,
-                        // marginBottom: 400
                     }}
                 >
                     <Text style = {{fontSize: 20, fontWeight: 'bold'}}> Delete Account </Text>
                 </TouchableOpacity>
+
+
     
                 <AdMobBanner
+                            style = {{
+                                bottom: 0,
+                                position: 'absolute',
+                            }}
                             bannerSize = "smartBannerPortrait"
                             setTestDeviceIDAsync = "EMULATOR"
                             adUnitID = "ca-app-pub-1211516081114981/5167199993"
-                            // adUnitID = "ca-app-pub-3940256099942544/6300978111" test id of google
+                            // adUnitID = "ca-app-pub-3940256099942544/6300978111" 
+                            // test id of google
                             // onDidFailToReceiveAdWithError = {(e) => alert(e)}
                         />
     

@@ -1,11 +1,12 @@
 import React from 'react';
-import {ImageBackground, Text, View, TouchableOpacity, Platform, StatusBar } from 'react-native';
+import {ImageBackground, Text, View, TouchableOpacity, Platform, StatusBar, Alert } from 'react-native';
 import firebase from 'firebase';
 import db from '../config';
 import {auth, provider} from '../config';
 import {SocialIcon} from 'react-native-elements';
 import {TextInput, Modal} from 'react-native-paper';
 import * as GoogleAuth from 'expo-google-app-auth';
+import { ToastAndroid } from 'react-native';
 
 export default class Login extends React.Component {
 
@@ -23,7 +24,7 @@ export default class Login extends React.Component {
     signInWithGoogle = () => {
         GoogleAuth.logInAsync({
             androidClientId: '922087192991-j2fhtdigvd5lkoq8od6dgl7f97gvr46h.apps.googleusercontent.com',
-            androidStandaloneAppClientId: '922087192991-j2fhtdigvd5lkoq8od6dgl7f97gvr46h.apps.googleusercontent.com',
+            androidStandaloneAppClientId: '922087192991-qbk40u3ouqrns0h6qf0b9gikfv5pbnfa.apps.googleusercontent.com',
             scopes : ['profile', 'email']
         })
         .then((loginResult) => {
@@ -36,12 +37,13 @@ export default class Login extends React.Component {
 
                 this.props.navigation.navigate('Generate')
                 firebase.auth().signInWithCredential(credential)
+                ToastAndroid.show('Logged In!', ToastAndroid.SHORT)
 
             }
             return Promise.reject()
         })
         .catch((error) => {
-            alert(error.message)
+            Alert.alert(error.message)
         })
     }
 
@@ -65,13 +67,19 @@ export default class Login extends React.Component {
                     this.props.navigation.navigate('Generate')
                 }
 
-            alert("Login Successful!")
+
+                if(Platform.OS == 'web'){
+                    alert("Login Successful!")
+                }
+                  else if(Platform.OS == 'android'){
+                    ToastAndroid.show("Login Successful!", ToastAndroid.SHORT)
+                  }
 
             
         })
         .catch((error)=> {
            var errorMessage = error.message
-           return alert(errorMessage)
+            return Alert.alert(errorMessage)
        })
       }
 
@@ -79,13 +87,19 @@ export default class Login extends React.Component {
         firebase.auth().createUserWithEmailAndPassword(email,password).then(()=> {
 
             this.userLogin(this.state.email, this.state.password)
+
+            if(Platform.OS == 'web'){
+                return alert("User Added Successfully")
+            }
+            else if(Platform.OS == 'android'){
+                ToastAndroid.show("User Added Successfully!", ToastAndroid.SHORT)
+            }
             
-            return alert("User Added Successfully")
         })
 
         .catch((error)=> {
             var errorMessage = error.message
-            return alert(errorMessage)
+            return Alert.alert(errorMessage)
         })
     }
     
@@ -93,7 +107,7 @@ export default class Login extends React.Component {
         firebase.auth().sendPasswordResetEmail(email)
         .catch((error) => {
             var errorMessage = error.message
-            return alert(errorMessage)
+            return Alert.alert(errorMessage)
         })
     }
 
@@ -260,7 +274,7 @@ export default class Login extends React.Component {
                         }}
                         onPress = {() => {
                             this.forgotPassword(this.state.forgotEmail)
-                            alert('Please Check Your Email')
+                            Alert.alert('Please Check Your Email')
                             this.setState({modalVisible: false})
                         }}
                         >
@@ -388,7 +402,7 @@ export default class Login extends React.Component {
                                     height: 30,
                                     borderWidth: 1,
                                 }}
-                                type = 'google'   />
+                                type = 'google'/>
 
                             <TouchableOpacity onPress = {() => this.setState({modalVisible: true})}>
                                 <Text style = {{

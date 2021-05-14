@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View,FlatList,TouchableOpacity,Clipboard, Platform } from 'react-native';
+import { Text, View,FlatList,TouchableOpacity,Clipboard, Platform, ToastAndroid } from 'react-native';
 import {ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 import db from '../config';
@@ -65,7 +65,12 @@ export default class SavedPasswordsScreen extends React.Component {
 
     setTextIntoClipboard = async (item) => {
         await Clipboard.setString(item.savedPassword);
+        if(Platform.OS == 'web'){
         alert("Password Copied!")
+        }
+        else if(Platform.OS == 'android'){
+            ToastAndroid.show('Passowrd Copied!', ToastAndroid.SHORT)
+        }
     }
 
     
@@ -251,7 +256,8 @@ export default class SavedPasswordsScreen extends React.Component {
                         bannerSize = "smartBannerPortrait"
                         setTestDeviceIDAsync = "EMULATOR"
                         adUnitID = "ca-app-pub-1211516081114981/5167199993"
-                        // adUnitID = "ca-app-pub-3940256099942544/6300978111" test id of google
+                        // adUnitID = "ca-app-pub-3940256099942544/6300978111" 
+                        // test id of google
                         // onDidFailToReceiveAdWithError = {(e) => alert(e)}
                     />
     
