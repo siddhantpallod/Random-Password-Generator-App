@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground, Text, View, TouchableOpacity, Platform, StatusBar, Alert } from 'react-native';
+import {ImageBackground, Text, View, TouchableOpacity, Platform, StatusBar, ActivityIndicator } from 'react-native';
 import firebase from 'firebase';
 import db from '../config';
 import {auth, provider} from '../config';
@@ -17,7 +17,8 @@ export default class Login extends React.Component {
             password : '',
             forgotEmail: '',
             modalVisible: false,
-            userLoggedIn: false
+            userLoggedIn: false,
+            loading: false
         }
     }
 
@@ -36,14 +37,15 @@ export default class Login extends React.Component {
                 );
 
                 this.props.navigation.navigate('Generate')
-                firebase.auth().signInWithCredential(credential)
                 ToastAndroid.show('Logged In!', ToastAndroid.SHORT)
-
+                this.setState({loading: false})
+                return firebase.auth().signInWithCredential(credential)
             }
             return Promise.reject()
         })
         .catch((error) => {
-            Alert.alert(error.message)
+            this.setState({loading: false})
+            alert('Please Try Again Later!!')
         })
     }
 
@@ -67,6 +69,8 @@ export default class Login extends React.Component {
                     this.props.navigation.navigate('Generate')
                 }
 
+                this.setState({loading: false})
+
 
                 if(Platform.OS == 'web'){
                     alert("Login Successful!")
@@ -79,7 +83,8 @@ export default class Login extends React.Component {
         })
         .catch((error)=> {
            var errorMessage = error.message
-            return Alert.alert(errorMessage)
+           this.setState({loading: false})
+           return alert(errorMessage)
        })
       }
 
@@ -94,12 +99,15 @@ export default class Login extends React.Component {
             else if(Platform.OS == 'android'){
                 ToastAndroid.show("User Added Successfully!", ToastAndroid.SHORT)
             }
+
+            this.setState({loading: false})
             
         })
 
         .catch((error)=> {
             var errorMessage = error.message
-            return Alert.alert(errorMessage)
+            this.setState({loading: false})
+            return alert(errorMessage)
         })
     }
     
@@ -107,7 +115,7 @@ export default class Login extends React.Component {
         firebase.auth().sendPasswordResetEmail(email)
         .catch((error) => {
             var errorMessage = error.message
-            return Alert.alert(errorMessage)
+            return alert(errorMessage)
         })
     }
 
@@ -274,7 +282,7 @@ export default class Login extends React.Component {
                         }}
                         onPress = {() => {
                             this.forgotPassword(this.state.forgotEmail)
-                            Alert.alert('Please Check Your Email')
+                            alert('Please Check Your Email')
                             this.setState({modalVisible: false})
                         }}
                         >
@@ -344,6 +352,10 @@ export default class Login extends React.Component {
                                     })
                                 }}
                                 />
+
+                        {this.state.loading && (
+                        <ActivityIndicator style = {{marginTop: '5%'}} size = 'large' color = '#32CD32'/>
+                            )}
     
                             <TouchableOpacity style = {{
                                 alignItems: 'center',
@@ -355,7 +367,10 @@ export default class Login extends React.Component {
                                 alignSelf: 'center',
                                 marginTop: 30,
                                 borderWidth: 2
-                            }} onPress = {() => this.userLogin(this.state.email, this.state.password)} >
+                            }} onPress = {() => {
+                                this.userLogin(this.state.email, this.state.password)
+                                this.setState({loading: true})
+                                }} >
                                 <Text style = {{
                                     color: 'white',
                                     fontSize: 20
@@ -372,12 +387,16 @@ export default class Login extends React.Component {
                                 alignSelf: 'center',
                                 marginTop: 15,
                                 borderWidth: 2
-                            }} onPress = {() => this.userSignUp(this.state.email, this.state.password)} >
+                            }} onPress = {() => {this.userSignUp(this.state.email, this.state.password)
+                                this.setState({loading: true})
+                            }}>
                                 <Text style = {{
                                     color: 'white',
                                     fontSize: 20
                                 }}> SIGN UP </Text>
                             </TouchableOpacity>
+
+
 
                             <Text style = {{
                                 textAlign: 'center',
@@ -391,7 +410,8 @@ export default class Login extends React.Component {
                                 title = 'LOG IN WITH GOOGLE'
                                 raised 
                                 button
-                                onPress = {() => this.signInWithGoogle()}
+                                onPress = {() => {this.signInWithGoogle()
+                                    this.setState({loading: true})}}
                                 style = {{
                                     marginTop: 15,
                                     alignSelf: 'center',

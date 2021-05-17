@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, ImageBackground, Platform, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, ImageBackground, Platform } from 'react-native';
 import firebase from 'firebase';
 import {TextInput, Modal} from 'react-native-paper';
 import MyHeader from '../components/MyHeader';
@@ -28,7 +28,7 @@ export default class SettingsScreen extends React.Component {
               }
         }).catch((error) => {
             var errorMessage = error.message
-            Alert.alert(errorMessage)
+            alert(errorMessage)
         })
     }
 
@@ -43,7 +43,7 @@ export default class SettingsScreen extends React.Component {
             this.props.navigation.navigate('Login')
         }).catch((error) => {
             var message = error.message
-            Alert.alert(message)
+            alert(message)
         })
     }
 

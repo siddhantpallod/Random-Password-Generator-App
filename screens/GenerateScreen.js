@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, ImageBackground, TouchableOpacity, Clipboard, Platform, ToastAndroid, Alert, Modal, ActivityIndicator} from 'react-native';
+import { View, Text, TextInput, ImageBackground, TouchableOpacity, Clipboard, Platform, ToastAndroid, Modal, ActivityIndicator} from 'react-native';
 import {Icon} from 'react-native-elements';
 import db from '../config';
 import firebase from 'firebase';
@@ -84,7 +84,7 @@ export default class GenerateScreen extends React.Component {
   addToSavedPasswords = () => {
     
     if(!this.state.generatedPassword){
-        Alert.alert("Please Click Generate Button First To Generate Password.")        
+        alert("Please Click Generate Button First To Generate Password.")        
 
     }
     else{
@@ -117,7 +117,7 @@ export default class GenerateScreen extends React.Component {
   setTextIntoClipboard = async () => {
    
     if(!this.state.generatedPassword){
-        Alert.alert("Please Click Generate Button First To Generate Password")      
+        alert("Please Click Generate Button First To Generate Password")      
     }
     else {
     await Clipboard.setString(this.state.generatedPassword);

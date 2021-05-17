@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text, View,FlatList,TouchableOpacity,Clipboard, Platform, ToastAndroid } from 'react-native';
+import { Text, View,FlatList,TouchableOpacity,Clipboard, Platform, ToastAndroid, ActivityIndicator } from 'react-native';
 import {ListItem,Icon} from 'react-native-elements';
 import MyHeader from '../components/MyHeader';
 import db from '../config';
 import firebase from 'firebase';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {AdMobBanner, setTestDeviceIDAsync} from 'expo-ads-admob'
+import {AdMobBanner, setTestDeviceIDAsync} from 'expo-ads-admob';
 
 
 export default class SavedPasswordsScreen extends React.Component {
@@ -19,6 +19,7 @@ export default class SavedPasswordsScreen extends React.Component {
             savedDate : [],
             clipboardText: "",
             allSavedIntentions : [],
+            loading: true
         }
         this.savedRef = null
     }
@@ -41,13 +42,17 @@ export default class SavedPasswordsScreen extends React.Component {
             this.setState({
                 allSavedPasswords : savedPasswords,
                 savedDate : savedDate,
-                allSavedIntentions: savedIntentions
+                allSavedIntentions: savedIntentions,
+                loading: false
             })
         })
     }
 
     componentDidMount(){
         this.getSavedPasswords()
+        this.setState({
+            loading: true
+        })
     }
 
 
@@ -55,7 +60,7 @@ export default class SavedPasswordsScreen extends React.Component {
         this.savedRef()
     }
 
-    onCancelPressed = (item) => {
+    onDeletePressed = (item) => {
         db.collection('savedPasswords').doc(item).delete().then( function() {
             alert("Document successfully deleted!");
         }).catch(function(error) {
@@ -69,7 +74,7 @@ export default class SavedPasswordsScreen extends React.Component {
         alert("Password Copied!")
         }
         else if(Platform.OS == 'android'){
-            ToastAndroid.show('Passowrd Copied!', ToastAndroid.SHORT)
+            ToastAndroid.show('Password Copied!', ToastAndroid.SHORT)
         }
     }
 
@@ -234,6 +239,7 @@ export default class SavedPasswordsScreen extends React.Component {
                         title = "Saved Passwords"
                         navigation = {this.props.navigation}
                     />
+
                     {this.state.allSavedPasswords.length === 0 ?
                     (
                         <View>
@@ -244,14 +250,20 @@ export default class SavedPasswordsScreen extends React.Component {
                            }} > You Have No Saved Passwords. </Text>
                             </View>
                     ) : (
+
+                    
                     
                     <FlatList
                         keyExtractor = {this.keyExtracter}
                         data = {this.state.allSavedPasswords}
                         renderItem = {this.renderItem}
                     />
-                    )
-                     }
+                    )}
+
+                    {this.state.loading && (
+                        <ActivityIndicator size = 'large' color = '#FF00FF'/>
+                    )}
+                        
                         <AdMobBanner
                         bannerSize = "smartBannerPortrait"
                         setTestDeviceIDAsync = "EMULATOR"
@@ -260,6 +272,8 @@ export default class SavedPasswordsScreen extends React.Component {
                         // test id of google
                         // onDidFailToReceiveAdWithError = {(e) => alert(e)}
                     />
+
+                  
     
                 </View>
                     

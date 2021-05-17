@@ -42,8 +42,13 @@ export default class CustomSideBarMenu extends React.Component{
                         <TouchableOpacity 
                         onPress = {() => { 
                         this.props.navigation.navigate('Login')    
-                        ToastAndroid.show('Logged Out!', ToastAndroid.SHORT)
-                        firebase.auth().signOut
+                        firebase.auth().signOut().then(() => {
+                            ToastAndroid.show('Logged Out!', ToastAndroid.SHORT)
+                        })
+                        .catch((error) => {
+                            var errorMessage = error.message
+                            return alert(errorMessage)
+                        })
                     }}
                         style = {{
                             justifyContent : 'flex-end',
