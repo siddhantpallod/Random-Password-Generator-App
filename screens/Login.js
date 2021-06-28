@@ -5,7 +5,7 @@ import db from '../config';
 import {auth, provider} from '../config';
 import {SocialIcon} from 'react-native-elements';
 import {TextInput, Modal} from 'react-native-paper';
-import * as GoogleAuth from 'expo-google-app-auth';
+import * as GoogleSignIn from 'expo-google-app-auth';
 import { ToastAndroid } from 'react-native';
 
 export default class Login extends React.Component {
@@ -22,16 +22,17 @@ export default class Login extends React.Component {
         }
     }
 
-    signInWithGoogle = () => {
-        GoogleAuth.logInAsync({
+    signInWithGoogle = async () => {
+            await GoogleSignIn.logInAsync({
             androidClientId: '922087192991-j2fhtdigvd5lkoq8od6dgl7f97gvr46h.apps.googleusercontent.com',
             androidStandaloneAppClientId: '922087192991-qbk40u3ouqrns0h6qf0b9gikfv5pbnfa.apps.googleusercontent.com',
-            scopes : ['profile', 'email']
+            behavior: 'web',
+            scopes : ['profile', 'email'],
         })
         .then((loginResult) => {
             if(loginResult.type === 'success'){
                 const {idToken, accessToken} = loginResult;
-                const credential = firebase.auth.GoogleAuthProvider.credential(
+                var credential = firebase.auth.GoogleAuthProvider.credential(
                     idToken,
                     accessToken
                 );
@@ -41,11 +42,13 @@ export default class Login extends React.Component {
                 this.setState({loading: false})
                 return firebase.auth().signInWithCredential(credential)
             }
+        
             return Promise.reject()
         })
+
         .catch((error) => {
             this.setState({loading: false})
-            alert('Please Try Again Later!!')
+            alert(error.message)
         })
     }
 

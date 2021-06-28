@@ -19,7 +19,7 @@ export default class SettingsScreen extends React.Component {
     }
 
     updatePassword = (password) => {
-        firebase.auth().currentUser.updatePassword(password).then(() => {
+        currentUser.updatePassword(password).then(() => {
             if(Platform.OS == 'web'){
                 alert("Password Updated!")
               }
@@ -33,7 +33,7 @@ export default class SettingsScreen extends React.Component {
     }
 
     deleteUser = () => {
-        firebase.auth().currentUser.delete().then(() => {
+        currentUser.delete().then(() => {
             if(Platform.OS == 'web'){
                 alert("User Deleted")
               }

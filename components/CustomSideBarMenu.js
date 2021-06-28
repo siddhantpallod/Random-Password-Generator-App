@@ -143,7 +143,7 @@ export default class CustomSideBarMenu extends React.Component{
                                 onFinishRating = {(rating) => {
                                     ToastAndroid.show('Thank You!', ToastAndroid.SHORT)
                                     db.collection('ratings').add({
-                                        user: firebase.auth().currentUser.email,
+                                        user: firebase.auth().email,
                                         rating: rating
                                     })
 
